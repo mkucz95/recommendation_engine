@@ -12,19 +12,19 @@ class Recommender(object):
 
         self.df = df
         self.df_content = df_content
-        self.user_item = create_user_item_matrix(df)
-
-        email_encoded = email_mapper()
+        email_encoded = self.email_mapper()
         del self.df['email']
         self.df['user_id'] = email_encoded
+        self.df.rename({'article_id':'item_id'}, axis=1, inplace=True) #expand this for more functionality
+        self.user_item = self.create_user_item_matrix(df)
 
     #helper function
-    def email_mapper():
+    def email_mapper(self):
         coded_dict = dict()
         cter = 1
         email_encoded = []
         
-        for val in df['email']:
+        for val in self.df['email']:
             if val not in coded_dict:
                 coded_dict[val] = cter
                 cter+=1
@@ -64,7 +64,7 @@ class Recommender(object):
         return top_items # Return the top item ids
 
     #COLLABORATIVE FILTERING (binary)
-    def create_user_item_matrix(df):
+    def create_user_item_matrix(self, df):
         '''
         INPUT:
             df - pandas dataframe with item_id, title, user_id columns
