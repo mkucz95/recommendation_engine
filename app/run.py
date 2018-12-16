@@ -89,14 +89,23 @@ def index():
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
     return render_template('index.html', ids=ids, graphJSON=graphJSON)
 
-'''@app.route('/recommendations')
+@app.route('/recommendations')
 def recommendations():
-    query = request.args.get('query', '')
-    query_type = ''
+    num_recs = request.args.get('num_recs', default=10, type=int)
+    user_id = request.args.get('user_id', default=None, type=int)
+    title = None
+    if(user_id): #do collaborative filtering if user_id is given
+        rec_ids, rec_titles = recommendation_eng.user_user_recs(user_id, num_recs)
+        title = 'Collaborative Recommendations'
+    else: #do rank based recs
+        rec_titles = recommendation_eng.get_top_items(num_recs)
+        rec_ids = recommendation_eng.get_top_items(num_recs)
+        title = 'Rank Based Recommendations - {}'.format(num_recs)
 
+    recommendations=dict(zip(rec_ids, rec_titles))
+    return render_template('recommendations.html', user_id=user_id, num_recs=num_recs,
+             title=title,recommendations=recommendations)
 
-    return render_template('recommendations.html', query=query, recommendations=recommendations)
-'''
 def main():
     app.run(host='0.0.0.0', port=3001, debug=True)
 

@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block title %}Recommendations{% endblock %}
+
+{% block content %}
+<section class="recs">
+  {% block message %}
+    <h2>{{title}}:</h2>
+    {% if user_id != None %}
+    <h3>User: {{user_id}}</h3>
+    {% endif %}
+{% endblock %}
+        <ol>
+            {% for id, article_name in recommendations.items() %}
+                    <li>{{id}} - {{article_name}}</li>
+            {% endfor %}
+        </ol>
+</section>
+{% endblock %}

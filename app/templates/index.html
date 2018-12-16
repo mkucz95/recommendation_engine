@@ -13,6 +13,16 @@
 <body>
     <nav><a href="/"> Recommendation Engine - IBM Watson</a></nav>
 
+    <section id="recommendation">
+            <h2>Get Recommendations</h2>
+            <form action="/recommendations" method="get">
+                <h3>Rank Based Recommendations</h3>
+                <input type="number" name="num_recs" placeholder="# of Desired Recommendations">
+                <input type="number" name="user_id" placeholder="Your User Id (if any)">
+                <button type="submit" style="margin-top:1rem">Get Recommendations</button>
+            </form>
+    </section>
+        
 
     <article id="data_overview">
         {% block content %}
