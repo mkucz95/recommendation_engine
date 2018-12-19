@@ -1,10 +1,14 @@
 body{margin:0;position:relative;}
+/*direct child of body*/
+body>(article, nav){
+    padding-left:2rem;
+}
 nav {
     margin: 0;
-    background-color: #B1A296;
-    padding: 1rem 3rem;
-    border-bottom: .4rem solid #444;
+    background: linear-gradient(to right, rgb(139,0,139) 50%, rgb(240,248,255) 50%);
+    padding: 3.5rem 3rem;
 }
+
 header{
     padding:0 4rem;
     font-size: 1.3rem;
@@ -13,15 +17,16 @@ header{
     display: inline-block;
 }
 nav>a{
-    font-family: times, Times New Roman, times-roman, georgia, serif;
-    color: #444;
+    font-family: 'Times New Roman', Times, serif;
+    color: #FFF;
     margin: 0;
     font-size: 3rem;
     line-height: 3rem;
-    letter-spacing: -2px;
+    letter-spacing: 0.2rem;
     font-weight: bold;
-    text-decoration:none;margin-right:2rem;}
-header>p, .results a{
+    text-decoration:none;
+    margin-right:2rem;}
+header>p, .recommendations a{
     font-family: Gill Sans, Verdana;
  font-size: 0.8rem;
  line-height: 1rem;
@@ -30,22 +35,15 @@ header>p, .results a{
  font-weight: bold;
 }
 h1, h2{line-height: 2;color:black;}
-h2{border-bottom:0.2rem solid #557A95;margin-bottom:0;font-weight:300;}
+h2{border-bottom:0.2rem solid #444;margin-bottom:0;font-weight:300;}
 h1{font-size: 1.4rem;font-weight:400;border-bottom:0.2rem solid darkblue;}
 .js-plotly-plot{max-width:45%;display:inline-block}
-.main{
-    min-height: 100vh; /* will cover the 100% of viewport */
-    overflow: hidden;
-    display: block;
-    position: relative;
-    padding: 1rem 1rem 3rem 1rem; /* height of your footer */
-}
-footer {position: absolute;bottom: 0;width: 100%;}
+footer {position: absolute;bottom: 0;width: 100%;margin-bottom:-2rem;}
 footer ul {
     list-style-type: none;
     margin: 0;
     overflow: hidden;
-    background-color: #B1A296;
+    background-color: rgb(240,248,255);
     border-top: .4rem solid #444;
 }
 footer li {float: left;}
@@ -60,6 +58,7 @@ footer a:hover {background-color: #DCDCDC;}
 input{width:35%;}
 input, button{border-radius: 0.3rem;font-size: 1rem;padding: 0.5rem;margin: 0 1.3rem;}
 button{background-color:#5ace93; color:white}
+button:hover{cursor:pointer;}
 #recs{font-size:1.5rem;font-weight:300;}
 .recommendations ol {margin: 0 auto;text-align: center;}
 .recommendations li {display: inline-block;vertical-align: top;padding: 2rem;border-radius:1rem;}

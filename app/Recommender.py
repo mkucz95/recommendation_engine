@@ -198,53 +198,53 @@ class Recommender(object):
         neighbors_df.sort_values(by=['similarity', 'num_interactions'], ascending=False, inplace=True)
         return neighbors_df # Return the dataframe specified in the doc_string
 
-        def user_user_recs(user_id, m=10):
-            '''
-            INPUT:
-            user_id - (int) a user id
-            m - (int) the number of recommendations you want for the user
-            
-            OUTPUT:
-            recs - (list) a list of recommendations for the user by item id
-            rec_names - (list) a list of recommendations for the user by item title
-            
-            Description:
-            Loops through the users based on closeness to the input user_id
-            For each user - finds items the user hasn't seen before and provides them as recs
-            Does this until m recommendations are found
-            
-            Notes:
-            * Choose the users that have the most total item interactions 
-            before choosing those with fewer item interactions.
-
-            * Choose items with the items with the most total interactions 
-            before choosing those with fewer total interactions. 
+    def user_user_recs(user_id, m=10):
+        '''
+        INPUT:
+        user_id - (int) a user id
+        m - (int) the number of recommendations you want for the user
         
-            '''
-            try:
-                #get already read items
-                user_item_ids, _ = get_user_items(user_id)
-            except KeyError: #user does not exist
-                recs = get_top_item_ids(m)
-                return recs, get_item_names(recs)
-            #get neighbors sorted by similarity (descending)
-            neighbours = get_top_sorted_users(user_id).neighbor_id.values
-            
-            #get top 400 items (their ids), if outside of top 400 we dont want to recommend
-            all_items_sorted = get_top_item_ids(300)
-            
-            recs = []
-            
-            for user in neighbours:
-                neighbour_item_ids, _ = get_user_items(user)
-                not_seen = list(set(neighbour_item_ids)-(set(user_item_ids)&set(neighbour_item_ids)))
-                
-                #sort by highest ranked items, add to list
-                not_seen_sorted = list(set(all_items_sorted) &set(not_seen))
-                
-                recs.extend(not_seen)
-                if(len(recs)>=m):
-                    recs = recs[:m]
-                    break; #do not add any more
-            
+        OUTPUT:
+        recs - (list) a list of recommendations for the user by item id
+        rec_names - (list) a list of recommendations for the user by item title
+        
+        Description:
+        Loops through the users based on closeness to the input user_id
+        For each user - finds items the user hasn't seen before and provides them as recs
+        Does this until m recommendations are found
+        
+        Notes:
+        * Choose the users that have the most total item interactions 
+        before choosing those with fewer item interactions.
+
+        * Choose items with the items with the most total interactions 
+        before choosing those with fewer total interactions. 
+    
+        '''
+        try:
+            #get already read items
+            user_item_ids, _ = get_user_items(user_id)
+        except KeyError: #user does not exist
+            recs = get_top_item_ids(m)
             return recs, get_item_names(recs)
+        #get neighbors sorted by similarity (descending)
+        neighbours = get_top_sorted_users(user_id).neighbor_id.values
+        
+        #get top 400 items (their ids), if outside of top 400 we dont want to recommend
+        all_items_sorted = get_top_item_ids(300)
+        
+        recs = []
+        
+        for user in neighbours:
+            neighbour_item_ids, _ = get_user_items(user)
+            not_seen = list(set(neighbour_item_ids)-(set(user_item_ids)&set(neighbour_item_ids)))
+            
+            #sort by highest ranked items, add to list
+            not_seen_sorted = list(set(all_items_sorted) &set(not_seen))
+            
+            recs.extend(not_seen)
+            if(len(recs)>=m):
+                recs = recs[:m]
+                break; #do not add any more
+        
+        return recs, get_item_names(recs)

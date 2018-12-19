@@ -43,7 +43,7 @@ def index():
                 }
             }
         },
-                {
+        {
             'data':[
                 Histogram(x=article_counts)
             ],
@@ -83,7 +83,7 @@ def index():
                 'yaxis':{'title':'article section'},
                 'xaxis':{'title':'# duplicates'}
             }
-        },
+        }
     ]
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
@@ -99,8 +99,8 @@ def recommendations():
         title = 'Collaborative Recommendations'
     else: #do rank based recs
         rec_titles = recommendation_eng.get_top_items(num_recs)
-        rec_ids = recommendation_eng.get_top_items(num_recs)
-        title = 'Rank Based Recommendations - {}'.format(num_recs)
+        rec_ids = recommendation_eng.get_top_item_ids(num_recs)
+        title = 'Rank Based Recommendations'
 
     recommendations=dict(zip(rec_ids, rec_titles))
     return render_template('recommendations.html', user_id=user_id, num_recs=num_recs,

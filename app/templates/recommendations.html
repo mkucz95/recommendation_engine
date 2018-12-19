@@ -2,7 +2,7 @@
 {% block title %}Recommendations{% endblock %}
 
 {% block content %}
-<section class="recs">
+ <section class="recs">
   {% block message %}
     <h2>{{title}}:</h2>
     {% if user_id != None %}
@@ -11,7 +11,12 @@
 {% endblock %}
         <ol>
             {% for id, article_name in recommendations.items() %}
-                    <li>{{id}} - {{article_name}}</li>
+                <li>
+                        <ul>
+                            <li><b>ID: </b>{{id}}</li>
+                            <li><b>Title: </b>{{article_name}}</li>
+                        </ul>
+                </li>
             {% endfor %}
         </ol>
 </section>
