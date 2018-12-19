@@ -12,21 +12,21 @@
     <nav><a href="/"> Recommendation Engine</a></nav>
 
     <section id="recommendation">
-            <h2>Get Recommendations - <i>IBM Watson</i></h2>
+            <h2>Get Recommendations</h2>
             <form action="/recommendations" method="get">
                 <input type="number" name="num_recs" placeholder="# of Desired Recommendations">
-                <input type="number" name="user_id" placeholder="User Id (if any)">
+                <input type="number" name="user_id" placeholder="User ID (if any)">
                 <button type="submit" style="margin-top:1rem">Recommend Articles</button>
             </form>
     </section>
         
-    <article class='dataset'>
+    <article>
         {% block content %}
             <h2>Dataset Overview</h2>
         {% endblock %}
 
         {% for id in ids %}
-        <section id="{{id}}"></section>
+            <section id="{{id}}"></section>
         {% endfor %}
     </article>
 

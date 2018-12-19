@@ -1,6 +1,6 @@
 body{margin:0;position:relative;}
 /*direct child of body*/
-body>(article, nav){
+body>*:not(footer){
     padding-left:2rem;
 }
 nav {
@@ -28,16 +28,15 @@ nav>a{
     margin-right:2rem;}
 header>p, .recommendations a{
     font-family: Gill Sans, Verdana;
- font-size: 0.8rem;
- line-height: 1rem;
- text-transform: uppercase;
- letter-spacing: 2px;
- font-weight: bold;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
 }
 h1, h2{line-height: 2;color:black;}
 h2{border-bottom:0.2rem solid #444;margin-bottom:0;font-weight:300;}
 h1{font-size: 1.4rem;font-weight:400;border-bottom:0.2rem solid darkblue;}
-.js-plotly-plot{max-width:45%;display:inline-block}
 footer {position: absolute;bottom: 0;width: 100%;margin-bottom:-2rem;}
 footer ul {
     list-style-type: none;
