@@ -1,0 +1,19 @@
+{
+    "name": "IBM Watson Recommendation Engine",
+    "description": "Content and Rank Based Recommendations",
+    "keywords": [
+      "ibm",
+      "HTML5",
+      "watson",
+      "recommendation",
+      "engine",
+      "udacity"
+    ],
+    "repository": "https://github.com/mkucz95/recommendation_engine",
+    "success_url": "/",
+    "buildpacks": [
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-python.git"
+      }
+    ]
+  }
