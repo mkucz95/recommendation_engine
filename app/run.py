@@ -29,17 +29,17 @@ def index():
     graphs=[
         {
             'data':[
-                Histogram(y=user_interaction_counts, xbins=dict(start=1, end=85, size=5))
+                Histogram(x=user_interaction_counts, xbins=dict(start=1, end=85, size=5))
             ],
             'layout':{
-                'title':'User Interaction Distribution',
+                'title':'User Activity Distribution',
                 'subtitle':'Outliers Removed',
                 'yaxis':{
-                    'title':'Interactions',
+                    'title':'Occurences',
                     'showspikes':"true"
                     },
                 'xaxis':{
-                    'title':'# Articles'
+                    'title':'# Interactions'
                 }
             }
         },
@@ -108,6 +108,6 @@ def recommendations():
 
 def main():
     app.run(host='0.0.0.0', port=3001, debug=True)
-
+    
 if __name__ == '__main__':
     main()

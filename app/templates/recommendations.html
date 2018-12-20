@@ -12,10 +12,7 @@
         <ol>
             {% for id, article_name in recommendations.items() %}
                 <li>
-                        <ul>
-                            <li><b>ID: </b>{{id}}</li>
-                            <li><b>Title: </b>{{article_name}}</li>
-                        </ul>
+                        {{article_name}}, {{id}}
                 </li>
             {% endfor %}
         </ol>

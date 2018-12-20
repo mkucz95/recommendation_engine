@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 class Recommender(object):
     def __init__(self, df, df_content):
@@ -156,7 +157,7 @@ class Recommender(object):
         user_id = int(float(user_id))
         item_ids = list(user_item.columns[np.where(user_item.loc[user_id]==1)])
         #get item name from item id
-        item_names = get_item_names(item_ids)
+        item_names = self.get_item_names(item_ids)
         return [str(a_id) for a_id in item_ids], item_names # return the ids and names
 
 
@@ -198,7 +199,7 @@ class Recommender(object):
         neighbors_df.sort_values(by=['similarity', 'num_interactions'], ascending=False, inplace=True)
         return neighbors_df # Return the dataframe specified in the doc_string
 
-    def user_user_recs(user_id, m=10):
+    def user_user_recs(self, user_id, m):
         '''
         INPUT:
         user_id - (int) a user id
@@ -223,20 +224,20 @@ class Recommender(object):
         '''
         try:
             #get already read items
-            user_item_ids, _ = get_user_items(user_id)
+            user_item_ids, _ = self.get_user_items(user_id)
         except KeyError: #user does not exist
-            recs = get_top_item_ids(m)
+            recs = self.get_top_item_ids(m)
             return recs, get_item_names(recs)
         #get neighbors sorted by similarity (descending)
-        neighbours = get_top_sorted_users(user_id).neighbor_id.values
+        neighbours = self.get_top_sorted_users(user_id).neighbor_id.values
         
         #get top 400 items (their ids), if outside of top 400 we dont want to recommend
-        all_items_sorted = get_top_item_ids(300)
+        all_items_sorted = self.get_top_item_ids(300)
         
         recs = []
         
         for user in neighbours:
-            neighbour_item_ids, _ = get_user_items(user)
+            neighbour_item_ids, _ = self.get_user_items(user)
             not_seen = list(set(neighbour_item_ids)-(set(user_item_ids)&set(neighbour_item_ids)))
             
             #sort by highest ranked items, add to list
@@ -247,4 +248,4 @@ class Recommender(object):
                 recs = recs[:m]
                 break; #do not add any more
         
-        return recs, get_item_names(recs)
+        return recs, self.get_item_names(recs)

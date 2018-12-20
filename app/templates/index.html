@@ -9,12 +9,12 @@
         <script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
 </head>
 <body>
-    <nav><a href="/"> Recommendation Engine</a></nav>
+    <nav><a href="/">Recommendation Engine</a></nav>
 
     <section id="recommendation">
             <h2>Get Recommendations</h2>
             <form action="/recommendations" method="get">
-                <input type="number" name="num_recs" placeholder="# of Desired Recommendations">
+                <input type="number" name="num_recs" min="1" max="100" placeholder="# of Desired Recommendations">
                 <input type="number" name="user_id" placeholder="User ID (if any)">
                 <button type="submit" style="margin-top:1rem">Recommend Articles</button>
             </form>
