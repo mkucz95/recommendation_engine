@@ -105,9 +105,3 @@ def recommendations():
     recommendations=dict(zip(rec_ids, rec_titles))
     return render_template('recommendations.html', user_id=user_id, num_recs=num_recs,
              title=title,recommendations=recommendations)
-
-def main():
-    app.run(host='0.0.0.0', port=3001, debug=True)
-    
-if __name__ == '__main__':
-    main()
