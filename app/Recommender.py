@@ -16,7 +16,7 @@ class Recommender(object):
         email_encoded = self.email_mapper()
         del self.df['email']
         self.df['user_id'] = email_encoded
-        self.df.rename({'article_id':'item_id'}, axis=1, inplace=True) #expand this for more functionality
+        self.df.rename({'article_id':'item_id'}, axis='columns', inplace=True) #expand this for more functionality
         self.user_item = self.create_user_item_matrix(df)
 
     #helper function
