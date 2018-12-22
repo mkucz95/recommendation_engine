@@ -144,7 +144,7 @@ class Recommender(object):
         items = items.drop_duplicates('item_id')
         item_names = [items[items.item_id==float(i)]['title'].values[0] for i in item_ids]
             
-            return item_names # Return the article names associated with list of article ids
+        return item_names # Return the article names associated with list of article ids
     
     def get_user_items(self, user_id, user_item=None):
         '''
