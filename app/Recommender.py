@@ -136,12 +136,13 @@ class Recommender(object):
         '''
 
         if(df is None): df = self.df
-            #first filter only the associated item_ids
-            #iterate thru item_ids and get the names in order
-            #is sorted in same order as item_ids
-            items = df[df.item_id.isin(item_ids)]
-            items = items.drop_duplicates('item_id')
-            item_names = [items[items.item_id==float(i)]['title'].values[0] for i in item_ids]
+
+        #first filter only the associated item_ids
+        #iterate thru item_ids and get the names in order
+        #is sorted in same order as item_ids
+        items = df[df.item_id.isin(item_ids)]
+        items = items.drop_duplicates('item_id')
+        item_names = [items[items.item_id==float(i)]['title'].values[0] for i in item_ids]
             
             return item_names # Return the article names associated with list of article ids
     
