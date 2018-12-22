@@ -261,7 +261,7 @@ class Recommender(object):
         
         return recs, self.get_item_names(recs)
 
-    def content_recs(self, data_id, user_id=True, m=10, df=self.df):
+    def content_recs(self, data_id, user_id=True, m=10, df=None):
         '''
         INPUT:
             data_id (str) - id of either user or article
@@ -280,6 +280,9 @@ class Recommender(object):
         the title of each article, and based on the number of matches as well as the
         general popularity of the article it gives back the best recommendations.
         '''
+        if(df==None):
+            df=self.df #use data frame from self object
+
         if(user_id):
             user_id = data_id
             try:
