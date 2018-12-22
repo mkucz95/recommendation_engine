@@ -136,13 +136,15 @@ class Recommender(object):
         '''
 
         if(df is None): df = self.df
-        #first filter only the associated item_ids
-        #, then get only the first occurence of each item_id, title and make lists into title.
-        #is sorted in same order as item_ids
-        item_names = list(df[df.item_id.isin(item_ids)].groupby('item_id')['title'].first())
-        
-        return item_names # Return the item names associated with list of item ids
-
+            #first filter only the associated item_ids
+            #iterate thru item_ids and get the names in order
+            #is sorted in same order as item_ids
+            items = df[df.item_id.isin(item_ids)]
+            items = items.drop_duplicates('item_id')
+            item_names = [items[items.item_id==float(i)]['title'].values[0] for i in item_ids]
+            
+            return item_names # Return the article names associated with list of article ids
+    
     def get_user_items(self, user_id, user_item=None):
         '''
         INPUT:
