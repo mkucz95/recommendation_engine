@@ -2,4 +2,3 @@ punkt
 wordnet
 stopwords
 abc
-webtext

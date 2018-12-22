@@ -6,3 +6,4 @@ nltk==3.2.5
 numpy==1.12.1
 pandas==0.23.4
 plotly==2.0.15
+nltk==3.4

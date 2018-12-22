@@ -92,15 +92,23 @@ def index():
 @app.route('/recommendations')
 def recommendations():
     num_recs = request.args.get('num_recs', default=10, type=int)
-    user_id = request.args.get('user_id', default=None, type=int)
+    user_id = request.args.get('user_id', default=None, type=float)
+    content_based = request.args.get('content_based', default=False, type=bool)
     title = None
-    if(user_id): #do collaborative filtering if user_id is given
-        rec_ids, rec_titles = recommendation_eng.user_user_recs(user_id, num_recs)
-        title = 'Collaborative Recommendations'
-    else: #do rank based recs
-        rec_titles = recommendation_eng.get_top_items(num_recs)
-        rec_ids = recommendation_eng.get_top_item_ids(num_recs)
-        title = 'Rank Based Recommendations'
+    if(content_based and user_id):
+        rec_ids, rec_titles = recommendation_eng.content_recs(user_id, user_id=True, m=num_recs)
+        title='User Content Based Recommendations'
+    elif(content_based):
+        rec_ids, rec_titles = recommendation_eng.content_recs(user_id, user_id=False, m=num_recs)
+        title = 'Article Conent Based Recommendations'
+    else:
+        if(user_id): #do collaborative filtering if user_id is given
+            rec_ids, rec_titles = recommendation_eng.user_user_recs(user_id, num_recs)
+            title = 'Collaborative Recommendations'
+        else: #do rank based recs
+            rec_titles = recommendation_eng.get_top_items(num_recs)
+            rec_ids = recommendation_eng.get_top_item_ids(num_recs)
+            title = 'Rank Based Recommendations'
 
     recommendations=dict(zip(rec_ids, rec_titles))
     return render_template('recommendations.html', user_id=user_id, num_recs=num_recs,
