@@ -1,5 +1,13 @@
 import pandas as pd
 import numpy as np
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
+nltk.download('abc')
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
 
 class Recommender(object):
     def __init__(self, df, df_content):
@@ -249,3 +257,86 @@ class Recommender(object):
                 break; #do not add any more
         
         return recs, self.get_item_names(recs)
+
+    def content_recs(self, data_id, user_id=True, m=10, df=self.df):
+        '''
+        INPUT:
+            data_id (str) - id of either user or article
+            user_id (bool) - if true, make recs based on user
+            m (int) - number of recommendations to give based on term
+        OUTPUT:
+            recs (list) - list of article ids that are recommended
+            rec_names (list) - list of article names that are recommended
+            
+        Description:
+        This content based recommender looks at the articles the user has interacted with.
+        It goes through each article title and using he NLTK library, finds the most common words
+        (related to content) throughout all the articles.
+                
+        Based on these most common words, the recommender looks at the sums of words in
+        the title of each article, and based on the number of matches as well as the
+        general popularity of the article it gives back the best recommendations.
+        '''
+        if(user_id):
+            user_id = data_id
+            try:
+                #get already read articles
+                article_ids, _ = get_user_articles(user_id)
+            except KeyError: #user does not exist
+                print('User Doesnt Exist, Recommending Top Articles')
+                recs = get_top_article_ids(m)
+                return recs, get_article_names(recs)
+        
+        else:
+            article_ids = data_id
+            
+        title_data = df.drop_duplicates(subset='article_id') #drop duplicates 
+        titles = title_data[title_data.article_id.isin(list(map(float, article_ids)))].title
+        
+        #tokenize the words in each article title
+        title_words=[]
+        tokenized = tokenize(titles.str.cat(sep=' '))
+        title_words.extend(tokenized)
+        
+        #find the highest occuring words
+        common_words = pd.value_counts(title_words).sort_values(ascending=False)[:10].index
+
+        top_matches={}
+        #count number of occurences of each common word in other article titles (this measures similarity)
+        for word in common_words:
+            word_count = pd.Series(title_data.title.str.count(word).fillna(0)) #gets occurences of each word in title
+            top_matches[word] = word_count
+                        
+        top_matches = pd.DataFrame(top_matches) # num_cols== num of most common words
+        top_matches['top_matches'] = top_matches.sum(axis=1)
+        top_matches['article_id'] = title_data.article_id.astype(float)
+        
+        #get most interacted with articles
+        article_occurences = pd.DataFrame({'occurences':df.article_id.value_counts()})
+
+        #sort matches by most popular articles
+        top_matches = top_matches.merge(article_occurences, left_on='article_id', right_index=True)
+        top_matches.sort_values(['top_matches', 'occurences'], ascending=False, inplace=True)    
+        
+        #drop already read articles
+        recs_df = top_matches[~top_matches.article_id.isin(list(map(float, article_ids)))]
+        
+        #get rec id and names
+        recs = recs_df.article_id[:m].values.astype(str)
+        rec_names = get_article_names(recs)
+        
+        return recs, rec_names
+
+    def tokenize(self, x):
+        stop_words = (set(stopwords.words('english')) | set(nltk.corpus.abc.words()))
+        tokens = word_tokenize(x) #split each message into individual words
+        lemmatizer = WordNetLemmatizer()
+        clean_tokens=[]
+        for token in tokens:
+            #clean each token from whitespace and punctuation, and conver to
+            #root of word ie walking->walk
+            clean_token = lemmatizer.lemmatize(token).lower().strip()
+            clean_tokens.append(clean_token)
+            
+        filtered = [word for word in clean_tokens if word not in stop_words and word.isalpha()]
+        return filtered
