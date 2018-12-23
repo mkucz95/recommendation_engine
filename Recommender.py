@@ -330,6 +330,16 @@ class Recommender(object):
         return recs, rec_names
 
     def tokenize(self, x):
+        '''
+        Tokenize any string into seperate words. 
+        Use lemmatizer to break words down into core forms, and then keep only words with meaning
+
+        Inputs
+            x (str) - string to break down
+
+        Outputs
+            filtered (array, str) - words that are special to the string
+        '''
         stop_words = (set(stopwords.words('english')) | set(nltk.corpus.abc.words()))
         tokens = word_tokenize(x) #split each message into individual words
         lemmatizer = WordNetLemmatizer()
