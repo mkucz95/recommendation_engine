@@ -300,12 +300,10 @@ class Recommender(object):
         titles = title_data[title_data.item_id.isin(list(map(float, item_ids)))].title
         
         #tokenize the words in each item title
-        title_words=[]
-        tokenized = tokenize(titles.str.cat(sep=' '))
-        title_words.extend(tokenized)
+        title_words = tokenize(titles.str.cat(sep=' '))
         
         #find the highest occuring words
-        common_words = pd.value_counts(title_words).sort_values(ascending=False)[:10].index
+        common_words = pd.value_counts(title_words).sort_values(ascending=False)[:8].index
 
         top_matches={}
         #count number of occurences of each common word in other item titles (this measures similarity)

@@ -93,7 +93,7 @@ def index():
 def recommendations():
     num_recs = request.args.get('num_recs', default=10, type=int)
     user_id = request.args.get('user_id', default=None, type=float)
-    content_based = request.args.get('content_based', default=False, type=bool)
+    content_based = request.args.get('content_based')
     title = None
     if(content_based and user_id):
         rec_ids, rec_titles = recommendation_eng.content_recs(user_id, user_id=True, m=num_recs)
