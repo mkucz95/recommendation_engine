@@ -18,6 +18,7 @@ The recommender system can make recommendations in a number of ways:
 
 ## Usage
 [See Deployed Web App](https://recommendation-eng.herokuapp.com/)
+  - [App Code (Heroku)](https://github.com/mkucz95/recommendation_engine/tree/app/app) 
 - Collaborative Filtering
 - Rank based recommendations
 - Content based recommendations (user's read articles, or certain specified articles)
